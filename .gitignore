@@ -7,3 +7,7 @@
 .idea/
 *.iml
 out
+/bin/
+
+# environment
+.env
