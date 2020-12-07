@@ -3,10 +3,15 @@ package server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Server {
 
-    static final ArrayList<Connection> connections = new ArrayList<>();
+    // waiting to go select a channel
+    private static final ArrayList<Connection> connections = new ArrayList<>();
+
+    // all channels available
+    private static final HashMap<String, Channel> channels = new HashMap<>();
 
     ServerSocket server;
 
@@ -45,6 +50,8 @@ public class Server {
     public synchronized static void addConnection(Connection connection) {
         connections.add(connection);
         System.out.println(connections.size() + " client connected");
+
+        // get all channels and send the list to the client
     }
 
     public synchronized static void removeConnection(Connection connection) {
