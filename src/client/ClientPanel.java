@@ -1,5 +1,6 @@
 package client;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,7 +36,8 @@ public class ClientPanel extends JPanel implements ActionListener {
 	}
 	
 	
-	private void welcome_screen() {
+	public void welcome_screen() {
+		clear_screen();
 		JLabel kahoot_msg = new JLabel("Kahoot Java", SwingConstants.CENTER);
 		kahoot_msg.setFont(new Font("Calibri", Font.BOLD, 50));
 		kahoot_msg.setBounds(0,156, 1280,60 );
@@ -71,12 +73,18 @@ public class ClientPanel extends JPanel implements ActionListener {
 	
 	private void clear_screen() {
 		this.removeAll();
-		this.getGraphics().clearRect(0, 0, this.getWidth(), this.getHeight());
+		try {
+			this.getGraphics().clearRect(0, 0, this.getWidth(), this.getHeight());
+		} catch (NullPointerException e) {
+			System.out.println("init");
+		}
+		
 		this.repaint();
 
 	}
 	
-	private void connecting_screen() {
+	public void connecting_screen() {
+		clear_screen();
 		JLabel connect = new JLabel("Connexion au serveur en cours, merci de patienter...", SwingConstants.CENTER);
 		connect.setFont(new Font("Calibri", Font.BOLD, 50));
 		connect.setBounds(0, 325, 1280, 60);
@@ -84,6 +92,7 @@ public class ClientPanel extends JPanel implements ActionListener {
 	}
 	
 	public void server_welcome() {
+		clear_screen();
 		JLabel connected = new JLabel("Vous êtes connectés au serveur : 0.0.0.0:1234");
 		connected.setBounds(0, 0, 1280, 15);
 		this.add(connected);
@@ -112,6 +121,7 @@ public class ClientPanel extends JPanel implements ActionListener {
 	}
 	
 	public JLabel waiting_room(boolean administrator) {
+		clear_screen();
 		JLabel status_text = new JLabel("En attente d'autres joueurs ...", SwingConstants.CENTER);
 		status_text.setFont(new Font("Calibri", Font.BOLD, 50));
 		status_text.setBounds(0, 325, 1280, 60);
@@ -128,6 +138,7 @@ public class ClientPanel extends JPanel implements ActionListener {
 	}
 	
 	public JLabel question(int numquestion, String question, ArrayList<Proposition> answers) {
+		clear_screen();
 		JLabel numq = new JLabel("Question n°"+numquestion);
 		numq.setBounds(0, 0, 100, 13);
 		this.add(numq);
@@ -160,7 +171,17 @@ public class ClientPanel extends JPanel implements ActionListener {
 		return sec;
 	}
 	
+	public void question_lockbtns(JButton selected) {
+		for (JButton b : answers) {
+			if (b == selected) {
+				b.setForeground(Color.BLUE);
+			}
+			b.setEnabled(false);
+		}
+	}
+	
 	public void reponse(Proposition reponse) {
+		clear_screen();
 		JLabel rep =  new JLabel("La réponse était : "+reponse.getText(), SwingConstants.CENTER);
 		rep.setBounds(0, 325, 1280, 60);
 		rep.setFont(new Font("Calibri", Font.BOLD, 25));
@@ -169,6 +190,7 @@ public class ClientPanel extends JPanel implements ActionListener {
 	}
 	
 	public void scores(HashMap<String, Integer> scoreboard) {
+		clear_screen();
 		// Le tableau de scores arrive déjà trié.
 		JLabel sc = new JLabel("Partie Terminé. Tableau des scores : ");
 		sc.setBounds(0, 0, 1280, 40);
@@ -221,13 +243,19 @@ public class ClientPanel extends JPanel implements ActionListener {
 		} else if (src == start_game) {
 			ClientRunner.getInstance().RecievePanel(PanelToRunner.START_GAME, null);
 		} else if (src == close) {
-			System.exit(0);
+			ClientRunner.getInstance().close();
 		} else {
 			if (answers !=null) {
 				for (JButton b : answers) {
 					if (src == b) {
 						ClientRunner.getInstance().RecievePanel(PanelToRunner.ANSWER, b);
 						return;
+					}
+				}
+			} else if (srv_bts != null) {
+				for (JButton b : srv_bts) {
+					if (src == b) {
+						ClientRunner.getInstance().RecievePanel(PanelToRunner.CONNECT, b);
 					}
 				}
 			}
