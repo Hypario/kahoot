@@ -1,8 +1,11 @@
 package common;
 
-public class Message {
+import java.io.Serializable;
 
-    private MessageType type;
+public class Message implements Serializable {
+
+	private static final long serialVersionUID = -3714598469244907310L;
+	private MessageType type;
     private Object object;
 
     public Message(MessageType type, Object object) {

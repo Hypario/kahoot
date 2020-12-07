@@ -60,7 +60,7 @@ public class ClientPanel extends JPanel implements ActionListener {
 		ip.setBounds(640, 497, 320, 16);
 		this.add(ip);
 		
-		port = new JTextField("1234");
+		port = new JTextField("50000");
 		port.setBounds(640, 530, 320, 16);
 		this.add(port);
 		
@@ -91,9 +91,9 @@ public class ClientPanel extends JPanel implements ActionListener {
 		this.add(connect);
 	}
 	
-	public void server_welcome() {
+	public void server_welcome(ArrayList<String> listeserv) {
 		clear_screen();
-		JLabel connected = new JLabel("Vous êtes connectés au serveur : 0.0.0.0:1234");
+		JLabel connected = new JLabel("Vous êtes connectés au serveur.");
 		connected.setBounds(0, 0, 1280, 15);
 		this.add(connected);
 	
@@ -101,7 +101,6 @@ public class ClientPanel extends JPanel implements ActionListener {
 		choice.setBounds(0,15,1280,15);
 		this.add(choice);
 		
-		String[] listeserv = {"Serveur1","Serveur2","Serveur3","Serveur4"};
 		srv_bts = new ArrayList<>();
 		int x = 320;
 		for (String srv : listeserv) {
@@ -180,11 +179,16 @@ public class ClientPanel extends JPanel implements ActionListener {
 		}
 	}
 	
-	public void reponse(Proposition reponse) {
+	public void reponse(Proposition reponse, String hint) {
 		clear_screen();
 		JLabel rep =  new JLabel("La réponse était : "+reponse.getText(), SwingConstants.CENTER);
 		rep.setBounds(0, 325, 1280, 60);
 		rep.setFont(new Font("Calibri", Font.BOLD, 25));
+		
+		JLabel hintlabel = new JLabel(hint, SwingConstants.CENTER);
+		hintlabel.setFont(new Font(hintlabel.getFont().getName(), Font.BOLD, 20));
+		hintlabel.setBounds(0,700,1280,20);
+		this.add(hintlabel);
 		this.add(rep);
 		
 	}
