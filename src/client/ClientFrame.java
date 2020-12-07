@@ -25,6 +25,7 @@ public class ClientFrame extends JFrame {
 		this.setVisible(true);
 		
 		this.setContentPane(panel = new ClientPanel());
+		validate();
 		
 		this.addWindowListener(new WindowAdapter() {
 	        @Override
