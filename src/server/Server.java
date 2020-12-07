@@ -1,12 +1,20 @@
 package server;
 
+import common.Message;
+import common.MessageType;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Server {
 
-    static final ArrayList<Connection> connections = new ArrayList<>();
+    // waiting to go select a channel
+    private static final ArrayList<Connection> connections = new ArrayList<>();
+
+    // all channels available
+    private static final HashMap<String, Channel> channels = new HashMap<>();
 
     ServerSocket server;
 
@@ -31,7 +39,16 @@ public class Server {
                 Connection client = new Connection(server.accept());
                 System.out.println("New connection");
 
+                // add the connection to the server
                 addConnection(client);
+
+                // set handler of responses
+                ResponseHandler handler = new ResponseHandler(client);
+                handler.start();
+
+                // send the list of channels
+                Message message = new Message(MessageType.Channels, channels);
+                client.sendMessage(message);
             }
         } catch (IOException e) {
             try {
@@ -50,6 +67,10 @@ public class Server {
     public synchronized static void removeConnection(Connection connection) {
         connections.remove(connection);
         System.out.println(connections.size() + " client connected");
+    }
+
+    public synchronized static Channel getChannel(String id) {
+        return channels.get(id);
     }
 
 }

@@ -1,33 +1,21 @@
 package common;
 
-import java.util.ArrayList;
-
 public class Message {
 
-    private String author;
-    private String content;
+    private MessageType type;
+    private Object object;
 
-    private ArrayList<Object> metadata;
-
-    public Message(String author, String content) {
-        this.author = author;
-        this.content = content;
+    public Message(MessageType type, Object object) {
+        this.type = type;
+        this.object = object;
     }
 
-    public String getAuthor() {
-        return author;
+    public MessageType getType() {
+        return type;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public ArrayList<Object> getMetadata() {
-        return metadata;
-    }
-
-    public void setMetadata(ArrayList<Object> metadata)
-    {
-        this.metadata = metadata;
+    public Object getObject() {
+        return object;
     }
 }
+

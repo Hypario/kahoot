@@ -19,21 +19,23 @@ public class Connection {
     }
 
     public Message getMessage() {
-        Message message = null;
+        Message data = null;
 
         try {
             if (input == null)
                 input = new ObjectInputStream(socket.getInputStream());
-            message = (Message) input.readObject();
+
+            data = (Message) input.readObject();
+
         } catch (IOException | ClassNotFoundException e) {
             this.handleException();
         }
 
-        return message;
+        return data;
     }
 
     public void sendMessage(Message message) {
-        try {
+        try  {
             if (output == null)
                 output = new ObjectOutputStream(socket.getOutputStream());
 
@@ -42,6 +44,16 @@ public class Connection {
         } catch (IOException e) {
             this.handleException();
         }
+    }
+
+    public void joinChannel(String id) {
+        Channel channel = Server.getChannel(id);
+        channel.add(this);
+    }
+
+    public void leaveChannel(String id) {
+        Channel channel = Server.getChannel(id);
+        channel.remove(this);
     }
 
     private void handleException() {
