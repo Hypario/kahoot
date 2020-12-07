@@ -4,6 +4,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 
 @SuppressWarnings("serial")
@@ -37,11 +38,25 @@ public class ClientFrame extends JFrame {
 		
 	}
 	
+	public void showError(String message, String title) {
+		JOptionPane.showMessageDialog(panel, message, title, JOptionPane.ERROR_MESSAGE);
+		System.err.println(message);
+	}
+	
+	
+	public ClientPanel getPanel() {
+		return panel;
+	}
+	
 	
 	public static ClientFrame getInstance() {
 		if (instance == null) {
 			instance = new ClientFrame();
 		}
 		return instance;
+	}
+
+	public String getUsername() {
+		return (String) JOptionPane.showInputDialog(panel, "Entrez votre nom d'utilisateur", "Entrez votre pseudo", JOptionPane.PLAIN_MESSAGE, null, null, null);
 	}
 }
