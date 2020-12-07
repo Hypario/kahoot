@@ -39,10 +39,28 @@ public class ClientRunner {
 		
 	}
 	
+	public void close() {
+		try {
+			closeConnection();
+		} catch(IOException e) {
+			frame.showError("Échec lors de la fermeture de connexion : \n"+e.getMessage(), "Erreur Fermeture");
+		}
+		System.exit(0);
+	}
+	
+	private void closeConnection() throws IOException {
+		if (socket != null) {
+			is.close();
+			os.close();
+			socket.close();
+		}
+	}
+	
 	public void connectToServer(String host, int port) {
 		if (username == null) {
 			username = frame.getUsername();
 		}
+		frame.getPanel().connecting_screen();
 		try {
 			socket = new Socket(host, port);
 			is = socket.getInputStream();
@@ -50,9 +68,11 @@ public class ClientRunner {
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			frame.showError(e.getMessage(), "Erreur Host");
+			frame.getPanel().welcome_screen();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			frame.showError(e.getMessage(), "Erreur IO");
+			frame.getPanel().welcome_screen();
 		}
 		
 	}

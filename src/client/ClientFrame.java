@@ -32,7 +32,7 @@ public class ClientFrame extends JFrame {
 	        @Override
 	        public void windowClosing(WindowEvent e) {
 	            // Action when window is closed
-	            System.exit(0);
+	            ClientRunner.getInstance().close();
 	        }
 	    });
 		
