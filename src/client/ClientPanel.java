@@ -192,21 +192,7 @@ public class ClientPanel extends JPanel implements ActionListener {
 	}
 	
 	
-	
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		Object src = e.getSource();
-		
-		if (src == login_btn) {
-			login_to_server();
-		} else if (src == createsrv) {
-			System.out.println("Création du serveur");
-		} else if (src == close) {
-			System.exit(0);
-		}
-	}
+	// ACTION TO RUNNER
 	
 	private void login_to_server() {
 		int port_srv;
@@ -220,5 +206,34 @@ public class ClientPanel extends JPanel implements ActionListener {
 		}
 		
 	}
+	
+	
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		Object src = e.getSource();
+		
+		if (src == login_btn) {
+			login_to_server();
+		} else if (src == createsrv) {
+			ClientRunner.getInstance().RecievePanel(PanelToRunner.CREATE_SRV, null);
+		} else if (src == start_game) {
+			ClientRunner.getInstance().RecievePanel(PanelToRunner.START_GAME, null);
+		} else if (src == close) {
+			System.exit(0);
+		} else {
+			if (answers !=null) {
+				for (JButton b : answers) {
+					if (src == b) {
+						ClientRunner.getInstance().RecievePanel(PanelToRunner.ANSWER, b);
+						return;
+					}
+				}
+			}
+		}
+	}
+	
+	
 
 }

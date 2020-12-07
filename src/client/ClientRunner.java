@@ -35,6 +35,10 @@ public class ClientRunner {
 		frame = ClientFrame.getInstance();
 	}
 	
+	public void RecievePanel(PanelToRunner state, Object element) {
+		
+	}
+	
 	public void connectToServer(String host, int port) {
 		if (username == null) {
 			username = frame.getUsername();
