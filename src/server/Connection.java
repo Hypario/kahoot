@@ -56,6 +56,15 @@ public class Connection {
         channel.remove(this);
     }
 
+    public void close() {
+        try {
+            socket.close();
+            Server.removeConnection(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void handleException() {
         if (socket.isClosed()) {
             Server.removeConnection(this);

@@ -2,7 +2,6 @@ package server;
 
 import common.Message;
 import common.Proposition;
-import common.Question;
 
 public class ResponseHandler extends Thread {
 
@@ -18,13 +17,18 @@ public class ResponseHandler extends Thread {
         while (true) {
             Message object = client.getMessage();
 
-            switch (object.getType()) {
-                case Proposition:
-                    this.handleProposition((Proposition) object.getObject());
-                    break;
-                case ChannelChoice:
-                    this.handleChannelChoice((String) object.getObject());
-                    break;
+            if (object != null) {
+                switch (object.getType()) {
+                    case Proposition:
+                        this.handleProposition((Proposition) object.getObject());
+                        break;
+                    case ChannelChoice:
+                        this.handleChannelChoice((String) object.getObject());
+                        break;
+                }
+            } else {
+                client.close(); // have to close client socket
+                return; // if object is null, connection got interrupted, do not consume any cycles of CPU anymore
             }
         }
     }
