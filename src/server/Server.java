@@ -85,7 +85,7 @@ public class Server {
     }
 
     public synchronized static void setChannel(Channel channel) {
-        channels.put(UUID.randomUUID().toString(), channel);
+        channels.put(channel.getChannelName(), channel);
     }
 
     public synchronized static ArrayList<Quiz> getQuizzes() {
