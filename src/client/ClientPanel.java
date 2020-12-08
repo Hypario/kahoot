@@ -145,6 +145,7 @@ public class ClientPanel extends JPanel implements ActionListener {
 		JLabel sec = new JLabel("x Secondes Restantes");
 		sec.setBounds(100,0,200,13);
 		this.add(sec);
+		
 
 		JLabel q = new JLabel(question, SwingConstants.CENTER);
 		q.setBounds(0, 100, 1280, 30);
@@ -166,7 +167,6 @@ public class ClientPanel extends JPanel implements ActionListener {
 
 			nbr+=1;
 		}
-
 		return sec;
 	}
 

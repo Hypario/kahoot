@@ -68,6 +68,7 @@ public class ClientRunner {
 			join_game(((JButton) element).getText() );
 			break;
 		case START_GAME:
+			start_game();
 			break;
 		default:
 			break;
@@ -101,6 +102,8 @@ public class ClientRunner {
 	private void start_game() {
 		if (channelAdmin) {
 			// On attend fabien
+			Message tosend = new Message(null,null); // = new Message(MessageType.StartChannel, this.channelName);
+			sendToServer(tosend);
 		}
 	}
 
@@ -126,6 +129,7 @@ public class ClientRunner {
 	
 	public void rxCreateChannel(Message msg) {
 		// On reçoit les propositions de quizz
+		@SuppressWarnings("unchecked")
 		ArrayList<Quiz> quizes = (ArrayList<Quiz>) msg.getObject();
 		String[] quiz_string = new String[quizes.size()];
 		int current = 0;
@@ -152,6 +156,7 @@ public class ClientRunner {
 		this.channelName = this.username;
 		
 		
+		@SuppressWarnings("unused")
 		JLabel label = frame.getPanel().waiting_room(channelAdmin);
 		//label.setText("En attente d'autres joueurs. La partie va commencer dans 10 secondes.");
 	}
@@ -178,6 +183,7 @@ public class ClientRunner {
 	}
 
 	public void channelChoicesRX(Message msg) {
+		@SuppressWarnings("unchecked")
 		ArrayList<String> ch = (ArrayList<String>) msg.getObject();
 		
 		frame.getPanel().server_welcome(ch);
@@ -213,11 +219,9 @@ public class ClientRunner {
 			Thread l = new Thread(listener);
 			l.start();
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			frame.showError(e.getMessage(), "Erreur Host");
 			frame.getPanel().welcome_screen();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			frame.showError(e.getMessage(), "Erreur IO");
 			frame.getPanel().welcome_screen();
 		}
@@ -229,7 +233,6 @@ public class ClientRunner {
 			oos.writeObject(msg);
 			oos.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			frame.showError("Erreur d'envoi : \n"+e.getMessage(), "Erreur IO");
 		}
 
