@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class ResponseHandler extends Thread {
 
     private Connection client;
+    private Channel joinedChannel;
 
     ResponseHandler(Connection client) {
         super();
@@ -32,12 +33,21 @@ public class ResponseHandler extends Thread {
                     case QuizzChoice:
                         this.handleCreateChannel((CreateChannel) object.getObject());
                         break;
+                    case QuizzStart:
+                        this.handleQuizzStart((String) object.getObject());
                 }
             } else {
+                if (joinedChannel != null)
+                    joinedChannel.remove(client);
                 client.close(); // have to close client socket
                 return; // if object is null, connection got interrupted, do not consume any cycles of CPU anymore
             }
         }
+    }
+
+    private void handleQuizzStart(String channelName) {
+        Channel channel = Server.getChannel(channelName);
+        channel.startQuizz();
     }
 
     // clicked on "create channel", return the list of all the quizzes
@@ -48,19 +58,19 @@ public class ResponseHandler extends Thread {
 
     // confirmed creation, create channel in server
     private void handleCreateChannel(CreateChannel createChannel) {
-        Channel channel = new Channel(createChannel.getChannelName(), createChannel.getAdmin(), createChannel.getQuizz());
-        Server.setChannel(channel);
-        channel.add(client); // add admin
-        channel.start();
+        joinedChannel = new Channel(createChannel.getChannelName(), createChannel.getAdmin(), createChannel.getQuizz());
+        Server.setChannel(joinedChannel);
+        joinedChannel.add(client); // add admin
+        joinedChannel.start();
     }
 
     private void handleProposition(Proposition proposition) {
-        // handle proposition
+        client.setProposition(proposition);
     }
 
     private void handleChannelChoice(String id) {
-        Channel channel = Server.getChannel(id);
-        channel.add(client);
+        Channel joinedChannel = Server.getChannel(id);
+        joinedChannel.add(client);
     }
 
 }
