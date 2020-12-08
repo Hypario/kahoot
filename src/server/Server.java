@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 
 import common.BDCreate;
 import common.Message;
@@ -56,7 +57,7 @@ public class Server {
                 // send the list of channels
                 ArrayList<String> channels_name = new ArrayList<>();
                 for (Map.Entry<String, Channel> entry : channels.entrySet()) {
-                	channels_name.add(entry.getValue().getChannelName());
+                    channels_name.add(entry.getValue().getChannelName());
                 }
                 Message message = new Message(MessageType.Channels, channels_name);
                 client.sendMessage(message);
@@ -72,12 +73,13 @@ public class Server {
 
     public synchronized static void addConnection(Connection connection) {
         connections.add(connection);
-        System.out.println(connections.size() + " client connected");
+        System.out.println(connections.size() + " client in wainting list");
     }
 
     public synchronized static void removeConnection(Connection connection) {
         connections.remove(connection);
-        System.out.println(connections.size() + " client connected");
+        channels.forEach((s, channel) -> channel.remove(connection)); // remove the connection to any channel
+        System.out.println(connections.size() + " client in waiting list");
     }
 
     public synchronized static Channel getChannel(String id) {
@@ -93,7 +95,7 @@ public class Server {
         ArrayList<Quiz> quizzes = new ArrayList<>();
 
         java.sql.Connection con = bdCreate.connect();
-        try  {
+        try {
             Statement statement = con.createStatement();
             statement.execute("SELECT quiz.* from quiz");
             ResultSet result = statement.getResultSet();
