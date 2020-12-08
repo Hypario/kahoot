@@ -35,6 +35,10 @@ public class ResponseHandler extends Thread {
                         break;
                     case QuizzStart:
                         this.handleQuizzStart((String) object.getObject());
+                        break;
+                    case SetUsername:
+                        client.setUsername((String) object.getObject());
+                        break;
                 }
             } else {
                 if (joinedChannel != null)

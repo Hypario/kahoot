@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Channel extends Thread {
 
@@ -58,16 +59,17 @@ public class Channel extends Thread {
                 Thread.sleep(10000);
 
                 for (Connection client : connections) {
-                    if (client.getProposition() != null && client.getProposition().equals(answer)) {
-                        client.setProposition(null);
-                        // TODO : add to score
-                    }
+                    if (client.getProposition().equals(answer))
+                        client.correctAnswer();
                 }
 
                 // send the answer to show it
                 broadcast(new Message(MessageType.Answer, answer));
                 Thread.sleep(5000);
             }
+
+            broadcast(new Message(MessageType.Score, getScore()));
+
         } catch (InterruptedException e) {
             Server.removeChannel(this.getChannelName());
             currentThread().interrupt();
@@ -84,6 +86,16 @@ public class Channel extends Thread {
 
     public String getAdmin() {
         return admin;
+    }
+
+    private HashMap<String, Integer> getScore() {
+        HashMap<String, Integer> scores = new HashMap<>();
+        for (Connection client :
+                connections) {
+            scores.put(client.getUsername(), client.getScore());
+        }
+
+        return scores;
     }
 
     private ArrayList<Question> getQuestions() {
