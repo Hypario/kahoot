@@ -89,6 +89,10 @@ public class Server {
         channels.put(channel.getChannelName(), channel);
     }
 
+    public synchronized static void removeChannel(String channelName) {
+        channels.remove(channelName);
+    }
+
     public synchronized static ArrayList<Quiz> getQuizzes() {
         BDCreate bdCreate = BDCreate.getInstance();
         ArrayList<Quiz> quizzes = new ArrayList<>();
