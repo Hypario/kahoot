@@ -104,7 +104,7 @@ public class Channel extends Thread {
         ArrayList<Question> questions = new ArrayList<>();
 
         try {
-            PreparedStatement statement = con.prepareStatement("SELECT question.*, p.text_proposition FROM question JOIN question_quizz qq on question.idQuestion = qq.idQuestion JOIN quiz q on qq.idQuiz = q.idQuiz JOIN proposition p on question.rep_id = p.idProposition WHERE qq.idQuiz = q.idQuiz AND question.rep_id = p.idProposition AND qq.idQuiz = ?");
+            PreparedStatement statement = con.prepareStatement("SELECT question.*, p.text_proposition FROM question JOIN question_quizz qq on question.idQuestion = qq.idQuestion JOIN quiz q on qq.idQuiz = q.idQuiz JOIN proposition p on question.rep_id = p.idProposition WHERE qq.idQuiz = q.idQuiz AND question.rep_id = p.idProposition AND qq.idQuiz = ? ORDER BY RAND() LIMIT 10");
             statement.setInt(1, quizz.getId());
             statement.execute();
             ResultSet result = statement.getResultSet();
