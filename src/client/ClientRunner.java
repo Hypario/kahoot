@@ -12,7 +12,11 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import common.*;
+import common.Message;
+import common.MessageType;
+import common.Proposition;
+import common.Question;
+import common.Quiz;
 import server.Channel;
 
 
@@ -88,24 +92,8 @@ public class ClientRunner {
 
 	private void create_srv() {
 		channelAdmin = true;
-		// On admet que les choix de possibilités sont là
-		String[] subjects = new String[2];
-		subjects[0] = "truc";
-		subjects[1] = "machin";
-		String answer_subject = null;
-		while (answer_subject == null) {
-			answer_subject = (String) JOptionPane.showInputDialog(frame, "Sélectionnez le thème des questions", "Thème des Questions", JOptionPane.QUESTION_MESSAGE, null, subjects, null);
-		}
-		String[] difficulties = new String[2];
-		difficulties[0] = "hardcore";
-		difficulties[1] = "easy";
-
-		String answer_difficulties = null;
-		while(answer_difficulties == null) {
-			answer_difficulties = (String) JOptionPane.showInputDialog(frame, "Sélectionnez la difficulté", "Sélectionner la difficulté", JOptionPane.QUESTION_MESSAGE, null, difficulties, null);
-		}
-
-		System.out.println(answer_subject+" "+answer_difficulties);
+		Message tosend = new Message(MessageType.CreateChannel, null);
+		sendToServer(tosend);
 	}
 
 	private void start_game() {
@@ -124,10 +112,50 @@ public class ClientRunner {
 		case Channels:
 			channelChoicesRX(msg);
 			break;
+		case CreateChannel:
+			rxCreateChannel(msg);
+			break;
 		default:
 			frame.showError("Le Serveur a envoyé un message qui n'a pas été reconnu par le client", "erreur client/serveur");
 			break;
 		}
+	}
+	
+	public void rxCreateChannel(Message msg) {
+		// On reçoit les propositions de quizz
+		ArrayList<Quiz> quizes = (ArrayList<Quiz>) msg.getObject();
+		String[] quiz_string = new String[quizes.size()];
+		int current = 0;
+		for (Quiz q : quizes) {
+			quiz_string[current] = q.getTheme();
+			current++;
+		}
+		
+		String answer_subject = null;
+		while (answer_subject == null) {
+			answer_subject = (String) JOptionPane.showInputDialog(frame, "Sélectionnez le thème des questions", "Thème des Questions", JOptionPane.QUESTION_MESSAGE, null, quiz_string, null);
+		}
+		
+		Quiz selected = null;
+		for (Quiz q : quizes) {
+			if (q.getTheme().equals(answer_subject)) {
+				selected = q;
+			}
+		}
+		// Select difficulté
+		String[] difficulties = new String[selected.getDifficulties().size()];
+		current =0;
+		for (String d : selected.getDifficulties()) {
+			difficulties[current] = d;
+			current++;
+		}
+				
+		String answer_difficulties = null;
+		while(answer_difficulties == null) {
+			answer_difficulties = (String) JOptionPane.showInputDialog(frame, "Sélectionnez la difficulté", "Sélectionner la difficulté", JOptionPane.QUESTION_MESSAGE, null, difficulties, null);
+		}
+
+		System.out.println(answer_subject+" "+answer_difficulties);
 	}
 
 	public void rxJoin() {
