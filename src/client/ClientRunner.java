@@ -207,6 +207,8 @@ public class ClientRunner {
 			closeConnection();
 		} catch(Exception e) {
 			frame.showError("Échec lors de la fermeture de connexion : \n"+e.getMessage(), "Erreur Fermeture");
+			e.printStackTrace();
+			ClientRunner.getInstance().close();
 		}
 		System.exit(0);
 	}
@@ -248,6 +250,8 @@ public class ClientRunner {
 			oos.flush();
 		} catch (IOException e) {
 			frame.showError("Erreur d'envoi : \n"+e.getMessage(), "Erreur IO");
+			e.printStackTrace();
+			ClientRunner.getInstance().close();
 		}
 
 	}

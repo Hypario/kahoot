@@ -29,9 +29,13 @@ public class ClientListener extends Thread{
 				}
 			} catch (IOException e) {
 				ClientFrame.getInstance().showError(e.getMessage(), "Erreur IO Thread Reader");
+				e.printStackTrace();
+				ClientRunner.getInstance().close();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				ClientFrame.getInstance().showError(e.getMessage(), "Erreur Class Not Found");
+				e.printStackTrace();
+				ClientRunner.getInstance().close();
 			}
 
 		}
