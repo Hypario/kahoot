@@ -102,7 +102,7 @@ public class ClientRunner {
 	private void start_game() {
 		if (channelAdmin) {
 			// On attend fabien
-			Message tosend = new Message(null,null); // = new Message(MessageType.StartChannel, this.channelName);
+			Message tosend = new Message(MessageType.QuizzStart,this.channelName); // = new Message(MessageType.StartChannel, this.channelName);
 			sendToServer(tosend);
 		}
 	}
