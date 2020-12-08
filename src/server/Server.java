@@ -82,8 +82,8 @@ public class Server {
         System.out.println(connections.size() + " client in waiting list");
     }
 
-    public synchronized static Channel getChannel(String id) {
-        return channels.get(id);
+    public synchronized static Channel getChannel(String channelName) {
+        return channels.get(channelName);
     }
 
     public synchronized static void setChannel(Channel channel) {

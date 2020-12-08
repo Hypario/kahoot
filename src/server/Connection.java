@@ -1,6 +1,7 @@
 package server;
 
 import common.Message;
+import common.Proposition;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,6 +14,8 @@ public class Connection {
 
     private ObjectOutputStream output;
     private ObjectInputStream input;
+
+    private Proposition proposition;
 
     Connection(Socket socket) {
         this.socket = socket;
@@ -63,6 +66,14 @@ public class Connection {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public synchronized Proposition getProposition() {
+        return proposition;
+    }
+
+    public synchronized void setProposition(Proposition proposition) {
+        this.proposition = proposition;
     }
 
     private void handleException() {

@@ -1,5 +1,5 @@
 package common;
 
 public enum MessageType {
-    Proposition, ChannelChoice, Channels, CreateChannel, QuizzList, QuizzChoice
+    Question, Proposition, ChannelChoice, Channels, CreateChannel, QuizzList, QuizzChoice, QuizzStart
 }
