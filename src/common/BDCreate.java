@@ -35,14 +35,14 @@ public class BDCreate {
         }
     }
 
-    public static BDCreate getInstance()
+    public synchronized static BDCreate getInstance()
     {
         if (INSTANCE == null)
             INSTANCE = new BDCreate();
         return INSTANCE;
     }
 
-    public Connection connect() {
+    public synchronized Connection connect() {
         try {
             if (conn == null)
                 conn = DriverManager.getConnection("jdbc:" + driver + "://" + host + ":" + port + "/" + dbname, username, password);

@@ -69,6 +69,17 @@ public class Channel extends Thread {
 
             broadcast(new Message(MessageType.Score, getScore()));
 
+            Thread.sleep(15000); // wait 15 seconds
+
+            // move everyone in waiting list
+            for (Connection connection: connections) {
+                Server.addConnection(connection);
+            }
+
+            // delete channel
+            Server.removeChannel(this.getChannelName());
+            currentThread().interrupt();
+
         } catch (InterruptedException e) {
             Server.removeChannel(this.getChannelName());
             currentThread().interrupt();
