@@ -184,7 +184,8 @@ public class ClientRunner {
 	public void rxAnswer(Message msg) {
 		Proposition p = (Proposition) msg.getObject();
 		System.out.println(p.getText());
-		frame.getPanel().reponse(p, null);
+		frame.getPanel().reponse(p, currentQuestion.getAnnec());	
+		
 	}
 
 	public void rxScore(HashMap<String, Integer> scores) {

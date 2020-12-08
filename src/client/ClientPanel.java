@@ -186,8 +186,8 @@ public class ClientPanel extends JPanel implements ActionListener {
 		rep.setFont(new Font("Calibri", Font.BOLD, 25));
 
 		JLabel hintlabel = new JLabel(hint, SwingConstants.CENTER);
-		hintlabel.setFont(new Font(hintlabel.getFont().getName(), Font.BOLD, 20));
-		hintlabel.setBounds(0,700,1280,20);
+		hintlabel.setFont(new Font(hintlabel.getFont().getName(), Font.BOLD, 15));
+		hintlabel.setBounds(0,600,1280,120);
 		this.add(hintlabel);
 		this.add(rep);
 
