@@ -15,7 +15,9 @@ public class Connection {
     private ObjectOutputStream output;
     private ObjectInputStream input;
 
+    private String username;
     private Proposition proposition;
+    private int score = 0;
 
     Connection(Socket socket) {
         this.socket = socket;
@@ -66,6 +68,22 @@ public class Connection {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void correctAnswer() {
+        score++;
     }
 
     public synchronized Proposition getProposition() {
