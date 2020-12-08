@@ -37,6 +37,8 @@ public class ResponseHandler extends Thread {
                         this.handleQuizzStart((String) object.getObject());
                 }
             } else {
+                if (joinedChannel != null)
+                    joinedChannel.remove(client);
                 client.close(); // have to close client socket
                 return; // if object is null, connection got interrupted, do not consume any cycles of CPU anymore
             }

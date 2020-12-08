@@ -78,7 +78,6 @@ public class Server {
 
     public synchronized static void removeConnection(Connection connection) {
         connections.remove(connection);
-        channels.forEach((s, channel) -> channel.remove(connection)); // remove the connection to any channel
         System.out.println(connections.size() + " client in waiting list");
     }
 
