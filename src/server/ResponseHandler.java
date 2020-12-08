@@ -27,10 +27,10 @@ public class ResponseHandler extends Thread {
                         this.handleChannelChoice((String) object.getObject());
                         break;
                     case CreateChannel:
-                        this.handleCreateChannel();
+                        this.handleCreateChannelEvent();
                         break;
                     case QuizzChoice:
-                        this.handleCreateChannelQuizzChoice((CreateChannel) object.getObject());
+                        this.handleCreateChannel((CreateChannel) object.getObject());
                         break;
                 }
             } else {
@@ -41,13 +41,13 @@ public class ResponseHandler extends Thread {
     }
 
     // clicked on "create channel", return the list of all the quizzes
-    private void handleCreateChannel() {
+    private void handleCreateChannelEvent() {
         ArrayList<Quiz> quizzes = Server.getQuizzes();
         client.sendMessage(new Message(MessageType.QuizzList, quizzes));
     }
 
     // confirmed creation, create channel in server
-    private void handleCreateChannelQuizzChoice(CreateChannel createChannel) {
+    private void handleCreateChannel(CreateChannel createChannel) {
         Channel channel = new Channel(createChannel.getChannelName(), createChannel.getAdmin(), createChannel.getQuizz());
         Server.setChannel(channel);
         channel.add(client); // add admin

@@ -39,6 +39,7 @@ public class Channel extends Thread {
     @Override
     public void run() {
         try {
+            System.out.println("waiting for 10s");
             Thread.sleep(10000); // wait for people to connect
 
             // start quizz
