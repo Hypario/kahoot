@@ -10,6 +10,7 @@ public class Quiz implements Serializable {
 	private static final long serialVersionUID = 7778560071532920177L;
 
 	private HashMap<String, ArrayList<Question>> questions;
+	private int id;
     private String author;
     private String theme;
     private double difficulty;
@@ -22,7 +23,8 @@ public class Quiz implements Serializable {
         this.author = author;
     }
 
-    public Quiz(String author, String theme, double difficulty) {
+    public Quiz(int id, String author, String theme, double difficulty) {
+        this.id = id;
         this.theme = theme;
         this.difficulty = difficulty;
         this.author = author;
@@ -42,6 +44,9 @@ public class Quiz implements Serializable {
         return questions.get(diff);
     }
 
+    public int getId() {
+        return id;
+    }
 
     public ArrayList<String> getDifficulties() {
         ArrayList<String> rep = new ArrayList<>();

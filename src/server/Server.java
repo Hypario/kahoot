@@ -104,11 +104,12 @@ public class Server {
             ResultSet result = statement.getResultSet();
 
             while (result.next()) {
+                int id = result.getInt("quiz.idQuiz");
                 String author = result.getString("quiz.author");
                 String theme = result.getString("quiz.theme");
                 double difficulty = result.getDouble("quiz.difficulty");
 
-                quizzes.add(new Quiz(author, theme, difficulty));
+                quizzes.add(new Quiz(id, author, theme, difficulty));
             }
 
         } catch (SQLException e) {

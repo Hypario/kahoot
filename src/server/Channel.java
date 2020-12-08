@@ -5,7 +5,6 @@ import common.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -105,8 +104,9 @@ public class Channel extends Thread {
         ArrayList<Question> questions = new ArrayList<>();
 
         try {
-            Statement statement = con.createStatement();
-            statement.execute("SELECT question.*, p.text_proposition FROM question JOIN question_quizz qq on question.idQuestion = qq.idQuestion JOIN quiz q on qq.idQuiz = q.idQuiz JOIN proposition p on question.rep_id = p.idProposition WHERE qq.idQuiz = q.idQuiz AND question.rep_id = p.idProposition");
+            PreparedStatement statement = con.prepareStatement("SELECT question.*, p.text_proposition FROM question JOIN question_quizz qq on question.idQuestion = qq.idQuestion JOIN quiz q on qq.idQuiz = q.idQuiz JOIN proposition p on question.rep_id = p.idProposition WHERE qq.idQuiz = q.idQuiz AND question.rep_id = p.idProposition AND qq.idQuiz = ?");
+            statement.setInt(1, quizz.getId());
+            statement.execute();
             ResultSet result = statement.getResultSet();
 
             while (result.next()) {
