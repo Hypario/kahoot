@@ -6,7 +6,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -18,7 +17,6 @@ import common.MessageType;
 import common.Proposition;
 import common.Question;
 import common.Quiz;
-import server.Channel;
 
 
 public class ClientRunner {
@@ -125,10 +123,14 @@ public class ClientRunner {
 		case Question:
 			rxQuestion(msg);
 			break;
+		case Answer:
+			rxAnswer(msg);
+			break;
 		default:	
 			frame.showError("Le Serveur a envoyé un message qui n'a pas été reconnu par le client", "erreur client/serveur");
 			break;
 		}
+		frame.getPanel().repaint();
 	}
 	
 	public void rxCreateChannel(Message msg) {
@@ -179,8 +181,10 @@ public class ClientRunner {
 		th.start();
 	}
 
-	public void rxAnswer(Proposition p) {
-		frame.getPanel().reponse(p, currentQuestion.getAnnec());
+	public void rxAnswer(Message msg) {
+		Proposition p = (Proposition) msg.getObject();
+		System.out.println(p.getText());
+		frame.getPanel().reponse(p, null);
 	}
 
 	public void rxScore(HashMap<String, Integer> scores) {
