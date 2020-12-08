@@ -1,6 +1,10 @@
 package common;
 
-public class Proposition {
+import java.io.Serializable;
+
+public class Proposition implements Serializable {
+
+	private static final long serialVersionUID = -4857096751890469156L;
 
 	private String text;
 	

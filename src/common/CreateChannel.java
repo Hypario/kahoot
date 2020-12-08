@@ -1,11 +1,15 @@
 package common;
 
+import java.io.Serializable;
+
 /**
  * Object to be used inside Message object attribute with the type CreateChannel
  */
-public class CreateChannel {
+public class CreateChannel implements Serializable {
 
-    private String channelName;
+	private static final long serialVersionUID = -2472912563489879768L;
+
+	private String channelName;
     private String admin;
     private Quiz quizz;
 

@@ -1,12 +1,15 @@
 package common;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Quiz {
+public class Quiz implements Serializable {
 
-    private HashMap<String, ArrayList<Question>> questions;
+	private static final long serialVersionUID = 7778560071532920177L;
+
+	private HashMap<String, ArrayList<Question>> questions;
     private String author;
     private String theme;
     private double difficulty;

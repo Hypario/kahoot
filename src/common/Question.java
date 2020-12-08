@@ -1,9 +1,12 @@
 package common;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Question {
-	
+public class Question implements Serializable {
+
+	private static final long serialVersionUID = -1810892236413603466L;
+
 	private String text;
 	private Proposition good_answer;
 	private ArrayList<Proposition> answers;

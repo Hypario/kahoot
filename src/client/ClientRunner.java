@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import common.CreateChannel;
 import common.Message;
 import common.MessageType;
 import common.Proposition;
@@ -112,7 +113,7 @@ public class ClientRunner {
 		case Channels:
 			channelChoicesRX(msg);
 			break;
-		case CreateChannel:
+		case QuizzList:
 			rxCreateChannel(msg);
 			break;
 		default:
@@ -143,6 +144,7 @@ public class ClientRunner {
 			}
 		}
 		// Select difficulté
+		/*
 		String[] difficulties = new String[selected.getDifficulties().size()];
 		current =0;
 		for (String d : selected.getDifficulties()) {
@@ -154,8 +156,11 @@ public class ClientRunner {
 		while(answer_difficulties == null) {
 			answer_difficulties = (String) JOptionPane.showInputDialog(frame, "Sélectionnez la difficulté", "Sélectionner la difficulté", JOptionPane.QUESTION_MESSAGE, null, difficulties, null);
 		}
-
-		System.out.println(answer_subject+" "+answer_difficulties);
+		*/
+		Message choice = new Message(MessageType.QuizzChoice, new CreateChannel(username, username, selected));
+		sendToServer(choice);
+		JLabel label = frame.getPanel().waiting_room(channelAdmin);
+		label.setText("En attente d'autres joueurs. La partie va commencer dans 10 secondes.");
 	}
 
 	public void rxJoin() {
@@ -180,12 +185,9 @@ public class ClientRunner {
 	}
 
 	public void channelChoicesRX(Message msg) {
-		HashMap<String, Channel> ch = (HashMap<String, Channel>) msg.getObject();
-		ArrayList<String> srvs = new ArrayList<>();
-		for (Map.Entry<String, Channel> srv : ch.entrySet()) {
-			srvs.add(srv.getKey());
-		}
-		frame.getPanel().server_welcome(srvs);
+		ArrayList<String> ch = (ArrayList<String>) msg.getObject();
+		
+		frame.getPanel().server_welcome(ch);
 	}
 
 	public void close() {

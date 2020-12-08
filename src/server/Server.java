@@ -1,16 +1,19 @@
 package server;
 
-import common.*;
-
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
+
+import common.BDCreate;
+import common.Message;
+import common.MessageType;
+import common.Quiz;
 
 public class Server {
 
@@ -51,7 +54,11 @@ public class Server {
                 handler.start();
 
                 // send the list of channels
-                Message message = new Message(MessageType.Channels, channels);
+                ArrayList<String> channels_name = new ArrayList<>();
+                for (Map.Entry<String, Channel> entry : channels.entrySet()) {
+                	channels_name.add(entry.getValue().getChannelName());
+                }
+                Message message = new Message(MessageType.Channels, channels_name);
                 client.sendMessage(message);
             }
         } catch (IOException e) {
