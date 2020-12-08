@@ -58,7 +58,7 @@ public class Channel extends Thread {
                 Thread.sleep(10000);
 
                 for (Connection client : connections) {
-                    if (client.getProposition().equals(answer))
+                    if (client.getProposition().getText().equals(answer.getText()))
                         client.correctAnswer();
                 }
 
