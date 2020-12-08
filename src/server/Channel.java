@@ -95,8 +95,8 @@ public class Channel extends Thread {
             while (result.next()) {
                 String text = result.getString("text_question");
                 ArrayList<Proposition> propositions = getPropositions(result.getInt("question.idQuestion"));
-                Proposition correct_answer = new Proposition(result.getString("p.text"));
-                String correct_text = result.getString("question.anecdote");
+                Proposition correct_answer = new Proposition(result.getString("p.text_proposition"));
+                String correct_text = result.getString("question.annecdote");
                 questions.add(new Question(text, propositions, correct_answer, correct_text));
             }
         } catch (SQLException e) {
@@ -115,7 +115,7 @@ public class Channel extends Thread {
         try {
             PreparedStatement statement = con.prepareStatement("SELECT * FROM question_proposition JOIN proposition p on question_proposition.PropositionId = p.idProposition WHERE QuestionId = ?");
             statement.setInt(1, idQuestion);
-            statement.executeUpdate();
+            statement.execute();
 
             ResultSet result = statement.getResultSet();
             while (result.next()) {

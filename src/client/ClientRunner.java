@@ -59,6 +59,7 @@ public class ClientRunner {
 	public void ReceivePanel(PanelToRunner state, Object element) {
 		switch (state) {
 		case ANSWER:
+			frame.getPanel().question_lockbtns((JButton) element);
 			quiz_answer( ((JButton) element).getText());
 			break;
 		case CREATE_SRV:
@@ -121,7 +122,10 @@ public class ClientRunner {
 		case QuizzList:
 			rxCreateChannel(msg);
 			break;
-		default:
+		case Question:
+			rxQuestion(msg);
+			break;
+		default:	
 			frame.showError("Le Serveur a envoyé un message qui n'a pas été reconnu par le client", "erreur client/serveur");
 			break;
 		}
@@ -165,7 +169,8 @@ public class ClientRunner {
 		frame.getPanel().waiting_room(channelAdmin);
 	}
 
-	public void rxQuestion(Question q) {
+	public void rxQuestion(Message m) {
+		Question q = (Question) m.getObject();
 		nbq++;
 		this.currentQuestion = q;
 		JLabel secs = frame.getPanel().question(nbq, q.getText(), q.getPropositionList());

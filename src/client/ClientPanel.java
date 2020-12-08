@@ -162,18 +162,20 @@ public class ClientPanel extends JPanel implements ActionListener {
 			JButton r = new JButton(p.getText());
 			r.setBounds(places[nbr][0], places[nbr][1], 610, 242);
 			r.addActionListener(this);
+			this.answers.add(r);
 			this.add(r);
 
 
 			nbr+=1;
 		}
+		repaint();
 		return sec;
 	}
 
 	public void question_lockbtns(JButton selected) {
 		for (JButton b : answers) {
 			if (b == selected) {
-				b.setForeground(Color.BLUE);
+				b.setBackground(Color.BLUE);
 			}
 			b.setEnabled(false);
 		}

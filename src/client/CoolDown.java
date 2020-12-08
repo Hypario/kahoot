@@ -17,6 +17,7 @@ public class CoolDown extends Thread {
 			try {
 				label_sec.setText(secs+" secondes restantes.");
 				Thread.sleep(1000);
+				secs--;
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
