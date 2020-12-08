@@ -1,3 +1,8 @@
+/**  
+* CoolDown.java - A Simple Cool Down
+* @author  Virgile DASSONNEVILLE
+* @version 1.0 
+*/ 
 package client;
 
 import javax.swing.JLabel;

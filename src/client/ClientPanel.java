@@ -1,3 +1,8 @@
+/**  
+* ClientPanel.java - JPanel
+* @author  Virgile DASSONNEVILLE
+* @version 1.0 
+*/ 
 package client;
 
 import java.awt.Color;

@@ -1,3 +1,8 @@
+/**  
+* ClientListener.java - Listening Thread
+* @author  Virgile DASSONNEVILLE
+* @version 1.0 
+*/ 
 package client;
 
 import java.io.IOException;
