@@ -4,18 +4,23 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.*;
+import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import common.BDCreate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import common.BDCreate;
 import common.Proposition;
 import common.Question;
 import common.Quiz;
@@ -63,12 +68,11 @@ public class JsonParser {
         // Ouverture / Lecture du fichier
 
         File fic = new File(filename);
-        BufferedReader br = new BufferedReader(new FileReader(fic));
+        BufferedReader br = new BufferedReader(new FileReader(fic, StandardCharsets.UTF_8));
         String currentLine;
         while ((currentLine = br.readLine()) != null) {
             json_content.append(currentLine).append("\n");
         }
-
         // Parser JSON du fichier
 
         JSONParser jparser = new JSONParser();
