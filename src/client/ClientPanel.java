@@ -37,6 +37,9 @@ public class ClientPanel extends JPanel implements ActionListener {
 
 
 	public void welcome_screen() {
+		/*
+		 * Ecran d'accueil demandant l'adresse ip et le port
+		 */
 		clear_screen();
 		JLabel kahoot_msg = new JLabel("Kahoot Java", SwingConstants.CENTER);
 		kahoot_msg.setFont(new Font("Calibri", Font.BOLD, 50));
@@ -72,6 +75,9 @@ public class ClientPanel extends JPanel implements ActionListener {
 	}
 
 	private void clear_screen() {
+		/*
+		 * Vider l'affichage de l'écran
+		 */
 		this.removeAll();
 		try {
 			this.getGraphics().clearRect(0, 0, this.getWidth(), this.getHeight());
@@ -84,6 +90,9 @@ public class ClientPanel extends JPanel implements ActionListener {
 	}
 
 	public void connecting_screen() {
+		/*
+		 * Ecran de transition lors de la connexion au serveur
+		 */
 		clear_screen();
 		JLabel connect = new JLabel("Connexion au serveur en cours, merci de patienter...", SwingConstants.CENTER);
 		connect.setFont(new Font("Calibri", Font.BOLD, 50));
@@ -92,6 +101,9 @@ public class ClientPanel extends JPanel implements ActionListener {
 	}
 
 	public void server_welcome(ArrayList<String> listeserv) {
+		/*
+		 * Ecran de bienvenue du serveur (Cannaux disponibles / Création de canal)
+		 */
 		clear_screen();
 		JLabel connected = new JLabel("Vous êtes connectés au serveur.");
 		connected.setBounds(0, 0, 1280, 15);
@@ -119,6 +131,9 @@ public class ClientPanel extends JPanel implements ActionListener {
 	}
 
 	public JLabel waiting_room(boolean administrator) {
+		/*
+		 * Affichage du salon d'attente avant le début de partie
+		 */
 		clear_screen();
 		JLabel status_text = new JLabel("En attente d'autres joueurs ...", SwingConstants.CENTER);
 		status_text.setFont(new Font("Calibri", Font.BOLD, 50));
@@ -136,6 +151,9 @@ public class ClientPanel extends JPanel implements ActionListener {
 	}
 
 	public JLabel question(int numquestion, String question, ArrayList<Proposition> answers) {
+		/*
+		 * Ecran de question
+		 */
 		clear_screen();
 		JLabel numq = new JLabel("Question n°"+numquestion);
 		numq.setBounds(0, 0, 100, 13);
@@ -171,6 +189,9 @@ public class ClientPanel extends JPanel implements ActionListener {
 	}
 
 	public void question_lockbtns(JButton selected) {
+		/*
+		 * Vérouillage des boutons
+		 */
 		for (JButton b : answers) {
 			if (b == selected) {
 				b.setBackground(Color.BLUE);
@@ -180,6 +201,9 @@ public class ClientPanel extends JPanel implements ActionListener {
 	}
 
 	public void reponse(Proposition reponse, String hint) {
+		/*
+		 * Ecran de réponse
+		 */
 		clear_screen();
 		JLabel rep =  new JLabel("La réponse était : "+reponse.getText(), SwingConstants.CENTER);
 		rep.setBounds(0, 325, 1280, 60);
@@ -194,6 +218,9 @@ public class ClientPanel extends JPanel implements ActionListener {
 	}
 
 	public void scores(HashMap<String, Integer> scoreboard) {
+		/*
+		 * Affichage du tableau des scores
+		 */
 		clear_screen();
 		// Le tableau de scores arrive déjà trié.
 		JLabel sc = new JLabel("Partie Terminé. Tableau des scores : ");
@@ -221,6 +248,9 @@ public class ClientPanel extends JPanel implements ActionListener {
 	// ACTION TO RUNNER
 
 	private void login_to_server() {
+		/*
+		 * Connexion au serveur
+		 */
 		int port_srv;
 		String ip_srv = ip.getText();
 		try {
@@ -235,7 +265,9 @@ public class ClientPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		/*
+		 * Recup des évenements envoyés par les boutons
+		 */
 		Object src = e.getSource();
 
 		if (src == login_btn) {

@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 @SuppressWarnings("serial")
 public class ClientFrame extends JFrame {
-	
+	// Le ClientFrame est un singleton
 	private static ClientFrame instance;
 	private ClientPanel panel;
 	
@@ -19,6 +19,9 @@ public class ClientFrame extends JFrame {
 	}
 	
 	private void initWindow() {
+		/* On affiche défini les infos de bases de la fenêtre
+		*	Titre de la fenêtre / Sa Taille / La centrer / La rendre visible et définir son contenu
+		*/
 		this.setTitle("Kahoot Java");
 		this.setSize(1280,720);
 		this.setLocationRelativeTo(null);
@@ -39,6 +42,9 @@ public class ClientFrame extends JFrame {
 	}
 	
 	public void showError(String message, String title) {
+		/*
+		 * Affichage d'erreur de manière physique sur la fenêtre et sur le terminal
+		 */
 		JOptionPane.showMessageDialog(panel, message, title, JOptionPane.ERROR_MESSAGE);
 		System.err.println(message);
 	}
@@ -50,6 +56,9 @@ public class ClientFrame extends JFrame {
 	
 	
 	public static ClientFrame getInstance() {
+		/*
+		 * C'est un singleton, donc si l'objet n'est pas créé, on le créé
+		 */
 		if (instance == null) {
 			instance = new ClientFrame();
 		}
@@ -57,6 +66,9 @@ public class ClientFrame extends JFrame {
 	}
 
 	public String getUsername() {
+		/*
+		 * Demande à l'utilisateur du nom d'utilisateur via une fenêtre graphique
+		 */
 		return (String) JOptionPane.showInputDialog(panel, "Entrez votre nom d'utilisateur", "Entrez votre pseudo", JOptionPane.PLAIN_MESSAGE, null, null, null);
 	}
 }
