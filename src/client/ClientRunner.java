@@ -126,6 +126,9 @@ public class ClientRunner {
 		case Answer:
 			rxAnswer(msg);
 			break;
+		case Score:
+			rxScore(msg);
+			break;
 		default:	
 			frame.showError("Le Serveur a envoyé un message qui n'a pas été reconnu par le client", "erreur client/serveur");
 			break;
@@ -188,7 +191,8 @@ public class ClientRunner {
 		
 	}
 
-	public void rxScore(HashMap<String, Integer> scores) {
+	public void rxScore(Message msg) {
+		HashMap<String, Integer> scores = (HashMap<String, Integer>) msg.getObject();
 		frame.getPanel().scores(scores);
 	}
 
