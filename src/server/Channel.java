@@ -63,8 +63,13 @@ public class Channel extends Thread {
                         // TODO : add to score
                     }
                 }
+
+                // send the answer to show it
+                broadcast(new Message(MessageType.Answer, answer));
+                Thread.sleep(5000);
             }
         } catch (InterruptedException e) {
+            Server.removeChannel(this.getChannelName());
             currentThread().interrupt();
         }
     }
