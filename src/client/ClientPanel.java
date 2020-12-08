@@ -116,7 +116,7 @@ public class ClientPanel extends JPanel implements ActionListener {
 		createsrv.setBounds(515,640,250,30);
 		createsrv.addActionListener(this);
 		this.add(createsrv);
-
+		this.repaint();
 	}
 
 	public JLabel waiting_room(boolean administrator) {
@@ -232,8 +232,6 @@ public class ClientPanel extends JPanel implements ActionListener {
 		}
 
 	}
-
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

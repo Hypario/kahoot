@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import common.*;
 import server.Channel;
@@ -30,6 +32,7 @@ public class ClientRunner {
 	private Question currentQuestion;
 	private int nbq = 0;
 
+	private final int time_to_answer = 10;
 
 	private ClientRunner() {
 		// TODO Auto-generated constructor stub
@@ -81,10 +84,28 @@ public class ClientRunner {
 
 	}
 
+	// ICI FABIEN
+
 	private void create_srv() {
 		channelAdmin = true;
-		sendToServer(new Message(MessageType.CreateChannel, "test"));
-		// On attend fabien
+		// On admet que les choix de possibilités sont là
+		String[] subjects = new String[2];
+		subjects[0] = "truc";
+		subjects[1] = "machin";
+		String answer_subject = null;
+		while (answer_subject == null) {
+			answer_subject = (String) JOptionPane.showInputDialog(frame, "Sélectionnez le thème des questions", "Thème des Questions", JOptionPane.QUESTION_MESSAGE, null, subjects, null);
+		}
+		String[] difficulties = new String[2];
+		difficulties[0] = "hardcore";
+		difficulties[1] = "easy";
+
+		String answer_difficulties = null;
+		while(answer_difficulties == null) {
+			answer_difficulties = (String) JOptionPane.showInputDialog(frame, "Sélectionnez la difficulté", "Sélectionner la difficulté", JOptionPane.QUESTION_MESSAGE, null, difficulties, null);
+		}
+
+		System.out.println(answer_subject+" "+answer_difficulties);
 	}
 
 	private void start_game() {
@@ -116,7 +137,10 @@ public class ClientRunner {
 	public void rxQuestion(Question q) {
 		nbq++;
 		this.currentQuestion = q;
-		frame.getPanel().question(nbq, q.getText(), q.getPropositionList());
+		JLabel secs = frame.getPanel().question(nbq, q.getText(), q.getPropositionList());
+		CoolDown cd = new CoolDown(time_to_answer, secs);
+		Thread th = new Thread(cd);
+		th.start();
 	}
 
 	public void rxAnswer(Proposition p) {
