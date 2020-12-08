@@ -257,7 +257,7 @@ public class ClientPanel extends JPanel implements ActionListener {
 			} else if (srv_bts != null) {
 				for (JButton b : srv_bts) {
 					if (src == b) {
-						ClientRunner.getInstance().ReceivePanel(PanelToRunner.CONNECT, b);
+						ClientRunner.getInstance().ReceivePanel(PanelToRunner.JOIN, b);
 					}
 				}
 			}

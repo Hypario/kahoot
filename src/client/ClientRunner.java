@@ -33,7 +33,8 @@ public class ClientRunner {
 	private String username;
 
 	private boolean channelAdmin = false;
-
+	private String channelName = null;
+	
 	private Question currentQuestion;
 	private int nbq = 0;
 
@@ -106,6 +107,7 @@ public class ClientRunner {
 	private void join_game(String name) {
 		Message tosend = new Message(MessageType.ChannelChoice, name);
 		sendToServer(tosend);
+		frame.getPanel().waiting_room(channelAdmin);
 	}
 
 	public void ReceiveServer(Message msg) {
@@ -143,24 +145,15 @@ public class ClientRunner {
 				selected = q;
 			}
 		}
-		// Select difficulté
-		/*
-		String[] difficulties = new String[selected.getDifficulties().size()];
-		current =0;
-		for (String d : selected.getDifficulties()) {
-			difficulties[current] = d;
-			current++;
-		}
-				
-		String answer_difficulties = null;
-		while(answer_difficulties == null) {
-			answer_difficulties = (String) JOptionPane.showInputDialog(frame, "Sélectionnez la difficulté", "Sélectionner la difficulté", JOptionPane.QUESTION_MESSAGE, null, difficulties, null);
-		}
-		*/
+		
+		
 		Message choice = new Message(MessageType.QuizzChoice, new CreateChannel(username, username, selected));
 		sendToServer(choice);
+		this.channelName = this.username;
+		
+		
 		JLabel label = frame.getPanel().waiting_room(channelAdmin);
-		label.setText("En attente d'autres joueurs. La partie va commencer dans 10 secondes.");
+		//label.setText("En attente d'autres joueurs. La partie va commencer dans 10 secondes.");
 	}
 
 	public void rxJoin() {
