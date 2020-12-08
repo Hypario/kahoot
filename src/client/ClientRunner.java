@@ -217,7 +217,7 @@ public class ClientRunner {
 	}
 
 	public void connectToServer(String host, int port) {
-		if (username == null) {
+		while (username == null || username.isBlank() || username.equals("")) {
 			username = frame.getUsername();
 		}
 		frame.getPanel().connecting_screen();
@@ -227,6 +227,7 @@ public class ClientRunner {
 			listener = new ClientListener(socket);
 			Thread l = new Thread(listener);
 			l.start();
+			sendToServer(new Message(MessageType.SetUsername, this.username));
 		} catch (UnknownHostException e) {
 			frame.showError(e.getMessage(), "Erreur Host");
 			frame.getPanel().welcome_screen();
