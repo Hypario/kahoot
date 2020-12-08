@@ -94,7 +94,7 @@ public class Channel extends Thread {
 
             while (result.next()) {
                 String text = result.getString("text_question");
-                ArrayList<Proposition> propositions = getPropositions(result.getInt("question.id"));
+                ArrayList<Proposition> propositions = getPropositions(result.getInt("question.idQuestion"));
                 Proposition correct_answer = new Proposition(result.getString("p.text"));
                 String correct_text = result.getString("question.anecdote");
                 questions.add(new Question(text, propositions, correct_answer, correct_text));
