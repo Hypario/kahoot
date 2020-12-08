@@ -1,7 +1,8 @@
 package server;
 
-import common.Message;
-import common.Proposition;
+import common.*;
+
+import java.util.ArrayList;
 
 public class ResponseHandler extends Thread {
 
@@ -25,6 +26,12 @@ public class ResponseHandler extends Thread {
                     case ChannelChoice:
                         this.handleChannelChoice((String) object.getObject());
                         break;
+                    case CreateChannel:
+                        this.handleCreateChannel();
+                        break;
+                    case QuizzChoice:
+                        this.handleCreateChannelQuizzChoice((CreateChannel) object.getObject());
+                        break;
                 }
             } else {
                 client.close(); // have to close client socket
@@ -33,12 +40,27 @@ public class ResponseHandler extends Thread {
         }
     }
 
+    // clicked on "create channel", return the list of all the quizzes
+    private void handleCreateChannel() {
+        ArrayList<Quiz> quizzes = Server.getQuizzes();
+        client.sendMessage(new Message(MessageType.QuizzList, quizzes));
+    }
+
+    // confirmed creation, create channel in server
+    private void handleCreateChannelQuizzChoice(CreateChannel createChannel) {
+        Channel channel = new Channel(createChannel.getChannelName(), createChannel.getAdmin(), createChannel.getQuizz());
+        Server.setChannel(channel);
+        channel.add(client); // add admin
+        channel.start();
+    }
+
     private void handleProposition(Proposition proposition) {
         // handle proposition
     }
 
-    private void handleChannelChoice(String channel) {
-        // handle channel choice
+    private void handleChannelChoice(String id) {
+        Channel channel = Server.getChannel(id);
+        channel.add(client);
     }
 
 }

@@ -1,21 +1,23 @@
 package server;
 
 import common.Message;
+import common.Quiz;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
-public class Channel {
+public class Channel extends Thread {
 
-    UUID id;
-    String name;
+    private String channelName, admin;
+
+    private Quiz quizz;
 
     // connected to the channel
     private static final ArrayList<Connection> connections = new ArrayList<>();
 
-    public Channel(String name) {
-        this.id = UUID.randomUUID();
-        this.name = name;
+    public Channel(String name, String admin, Quiz quizz) {
+        this.channelName = name;
+        this.admin = admin;
+        this.quizz = quizz;
     }
 
     public synchronized void add(Connection client) {
@@ -34,8 +36,22 @@ public class Channel {
         }
     }
 
-    public void start() {
-        // start quizz
+    @Override
+    public void run() {
+        try {
+            Thread.sleep(10000); // wait for people to connect
+
+            // start quizz
+        } catch (InterruptedException e) {
+            currentThread().interrupt();
+        }
     }
 
+    public String getChannelName() {
+        return channelName;
+    }
+
+    public String getAdmin() {
+        return admin;
+    }
 }

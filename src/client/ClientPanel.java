@@ -19,23 +19,23 @@ import common.Proposition;
 
 @SuppressWarnings("serial")
 public class ClientPanel extends JPanel implements ActionListener {
-	
+
 	private JTextField ip, port;
 	private JButton login_btn;
-	
+
 	private ArrayList<JButton> srv_bts;
 	private ArrayList<JButton> answers;
 	private JButton createsrv;
 	private JButton start_game;
 	private JButton close;
-	
-	
+
+
 	public ClientPanel() {
 		this.setLayout(null);
 		welcome_screen();
 	}
-	
-	
+
+
 	public void welcome_screen() {
 		clear_screen();
 		JLabel kahoot_msg = new JLabel("Kahoot Java", SwingConstants.CENTER);
@@ -46,31 +46,31 @@ public class ClientPanel extends JPanel implements ActionListener {
 		please_enter.setFont(new Font("Calibri", Font.PLAIN, 30));
 		please_enter.setBounds(0,204,1280,50);
 		this.add(please_enter);
-		
+
 		JLabel enter_ip = new JLabel("Entrez l'adresse IP du serveur : ");
 		enter_ip.setBounds(320, 499, 320, 13);
 		this.add(enter_ip);
-		
+
 		JLabel enter_port = new JLabel("Entrez le port du serveur : ");
 		enter_port.setBounds(320, 530, 320, 13);
 		this.add(enter_port);
-		
+
 		// JTextArea pour entrer les donn�es
 		ip = new JTextField("127.0.0.1");
 		ip.setBounds(640, 497, 320, 16);
 		this.add(ip);
-		
+
 		port = new JTextField("50000");
 		port.setBounds(640, 530, 320, 16);
 		this.add(port);
-		
+
 		login_btn = new JButton("Se Connecter");
 		login_btn.setBounds(515,640,250,30);
 		login_btn.addActionListener(this);
 		this.add(login_btn);
-		
+
 	}
-	
+
 	private void clear_screen() {
 		this.removeAll();
 		try {
@@ -78,11 +78,11 @@ public class ClientPanel extends JPanel implements ActionListener {
 		} catch (NullPointerException e) {
 			System.out.println("init");
 		}
-		
+
 		this.repaint();
 
 	}
-	
+
 	public void connecting_screen() {
 		clear_screen();
 		JLabel connect = new JLabel("Connexion au serveur en cours, merci de patienter...", SwingConstants.CENTER);
@@ -90,17 +90,17 @@ public class ClientPanel extends JPanel implements ActionListener {
 		connect.setBounds(0, 325, 1280, 60);
 		this.add(connect);
 	}
-	
+
 	public void server_welcome(ArrayList<String> listeserv) {
 		clear_screen();
 		JLabel connected = new JLabel("Vous êtes connectés au serveur.");
 		connected.setBounds(0, 0, 1280, 15);
 		this.add(connected);
-	
+
 		JLabel choice = new JLabel("Choisissez un serveur sur lequel vous voulez vous connecter", SwingConstants.CENTER);
 		choice.setBounds(0,15,1280,15);
 		this.add(choice);
-		
+
 		srv_bts = new ArrayList<>();
 		int x = 320;
 		for (String srv : listeserv) {
@@ -111,65 +111,65 @@ public class ClientPanel extends JPanel implements ActionListener {
 			this.add(join);
 			srv_bts.add(join);
 		}
-		
+
 		createsrv = new JButton("Créer un serveur");
 		createsrv.setBounds(515,640,250,30);
 		createsrv.addActionListener(this);
 		this.add(createsrv);
-	
+
 	}
-	
+
 	public JLabel waiting_room(boolean administrator) {
 		clear_screen();
 		JLabel status_text = new JLabel("En attente d'autres joueurs ...", SwingConstants.CENTER);
 		status_text.setFont(new Font("Calibri", Font.BOLD, 50));
 		status_text.setBounds(0, 325, 1280, 60);
 		this.add(status_text);
-		
+
 		if (administrator) {
 			start_game = new JButton("Commencer la partie");
 			start_game.setBounds(515,640,250,30);
 			start_game.addActionListener(this);
 			this.add(start_game);
 		}
-		
+
 		return status_text;
 	}
-	
+
 	public JLabel question(int numquestion, String question, ArrayList<Proposition> answers) {
 		clear_screen();
 		JLabel numq = new JLabel("Question n°"+numquestion);
 		numq.setBounds(0, 0, 100, 13);
 		this.add(numq);
-		
+
 		JLabel sec = new JLabel("x Secondes Restantes");
 		sec.setBounds(100,0,200,13);
 		this.add(sec);
-		
+
 		JLabel q = new JLabel(question, SwingConstants.CENTER);
 		q.setBounds(0, 100, 1280, 30);
 		q.setFont(new Font("Calibri", Font.BOLD, 25));
 		this.add(q);
-		
+
 		this.answers = new ArrayList<>();
-		
+
 		int[][] places = {{20,156}, {640,156}, {20, 408}, {640,408}};
-		
+
 		int nbr = 0;
 		for (Proposition p : answers) {
-			
+
 			JButton r = new JButton(p.getText());
 			r.setBounds(places[nbr][0], places[nbr][1], 610, 242);
 			r.addActionListener(this);
 			this.add(r);
-			
-			
+
+
 			nbr+=1;
 		}
-		
+
 		return sec;
 	}
-	
+
 	public void question_lockbtns(JButton selected) {
 		for (JButton b : answers) {
 			if (b == selected) {
@@ -178,21 +178,21 @@ public class ClientPanel extends JPanel implements ActionListener {
 			b.setEnabled(false);
 		}
 	}
-	
+
 	public void reponse(Proposition reponse, String hint) {
 		clear_screen();
 		JLabel rep =  new JLabel("La réponse était : "+reponse.getText(), SwingConstants.CENTER);
 		rep.setBounds(0, 325, 1280, 60);
 		rep.setFont(new Font("Calibri", Font.BOLD, 25));
-		
+
 		JLabel hintlabel = new JLabel(hint, SwingConstants.CENTER);
 		hintlabel.setFont(new Font(hintlabel.getFont().getName(), Font.BOLD, 20));
 		hintlabel.setBounds(0,700,1280,20);
 		this.add(hintlabel);
 		this.add(rep);
-		
+
 	}
-	
+
 	public void scores(HashMap<String, Integer> scoreboard) {
 		clear_screen();
 		// Le tableau de scores arrive déjà trié.
@@ -200,9 +200,9 @@ public class ClientPanel extends JPanel implements ActionListener {
 		sc.setBounds(0, 0, 1280, 40);
 		sc.setFont(new Font(sc.getFont().getName(), Font.BOLD, 30));
 		this.add(sc);
-		
+
 		int begin = 60;
-		
+
 		for (Map.Entry<String, Integer> elt : scoreboard.entrySet()) {
 			JLabel u_score = new JLabel(elt.getKey()+" : "+elt.getValue()+" points", SwingConstants.CENTER);
 			u_score.setFont(new Font(sc.getFont().getName(), Font.PLAIN, 20));
@@ -210,16 +210,16 @@ public class ClientPanel extends JPanel implements ActionListener {
 			this.add(u_score);
 			begin+=40;
 		}
-		
+
 		close = new JButton("Fermer");
 		close.setBounds(5, 640,150,40);
 		this.add(close);
 		close.addActionListener(this);
 	}
-	
-	
+
+
 	// ACTION TO RUNNER
-	
+
 	private void login_to_server() {
 		int port_srv;
 		String ip_srv = ip.getText();
@@ -230,42 +230,42 @@ public class ClientPanel extends JPanel implements ActionListener {
 			JOptionPane.showMessageDialog(this, "Vous ne pouvez pas entrer un port vide.\nErreur : "+e.getMessage(),"Erreur", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		
+
 	}
-	
-	
-	
+
+
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object src = e.getSource();
-		
+
 		if (src == login_btn) {
 			login_to_server();
 		} else if (src == createsrv) {
-			ClientRunner.getInstance().RecievePanel(PanelToRunner.CREATE_SRV, null);
+			ClientRunner.getInstance().ReceivePanel(PanelToRunner.CREATE_SRV, null);
 		} else if (src == start_game) {
-			ClientRunner.getInstance().RecievePanel(PanelToRunner.START_GAME, null);
+			ClientRunner.getInstance().ReceivePanel(PanelToRunner.START_GAME, null);
 		} else if (src == close) {
 			ClientRunner.getInstance().close();
 		} else {
 			if (answers !=null) {
 				for (JButton b : answers) {
 					if (src == b) {
-						ClientRunner.getInstance().RecievePanel(PanelToRunner.ANSWER, b);
+						ClientRunner.getInstance().ReceivePanel(PanelToRunner.ANSWER, b);
 						return;
 					}
 				}
 			} else if (srv_bts != null) {
 				for (JButton b : srv_bts) {
 					if (src == b) {
-						ClientRunner.getInstance().RecievePanel(PanelToRunner.CONNECT, b);
+						ClientRunner.getInstance().ReceivePanel(PanelToRunner.CONNECT, b);
 					}
 				}
 			}
 		}
 	}
-	
-	
+
+
 
 }

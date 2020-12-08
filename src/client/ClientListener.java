@@ -12,12 +12,12 @@ public class ClientListener extends Thread{
 	Socket socket;
 	ObjectInputStream ois;
 	InputStream is;
-	
-	
+
+
 	public ClientListener(Socket soc)  {
 		socket = soc;
 	}
-	
+
 	public void run() {
 		System.out.println("Client Listener Thread Started");
 		while(!Thread.currentThread().isInterrupted()) {
@@ -25,7 +25,7 @@ public class ClientListener extends Thread{
 			try {
 				ois = new ObjectInputStream(socket.getInputStream());
 				while((msg = (Message) ois.readObject()) != null) {
-				ClientRunner.getInstance().RecieveServer(msg);	
+				ClientRunner.getInstance().ReceiveServer(msg);
 				}
 			} catch (IOException e) {
 				ClientFrame.getInstance().showError(e.getMessage(), "Erreur IO Thread Reader");
@@ -33,10 +33,10 @@ public class ClientListener extends Thread{
 				// TODO Auto-generated catch block
 				ClientFrame.getInstance().showError(e.getMessage(), "Erreur Class Not Found");
 			}
-			
+
 		}
 	}
-	
+
 	public void close_listen() throws IOException {
 		ois.close();
 	}

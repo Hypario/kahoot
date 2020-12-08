@@ -1,12 +1,16 @@
 package server;
 
-import common.Message;
-import common.MessageType;
+import common.*;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.sql.Array;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class Server {
 
@@ -71,6 +75,36 @@ public class Server {
 
     public synchronized static Channel getChannel(String id) {
         return channels.get(id);
+    }
+
+    public synchronized static void setChannel(Channel channel) {
+        channels.put(UUID.randomUUID().toString(), channel);
+    }
+
+    public synchronized static ArrayList<Quiz> getQuizzes() {
+        BDCreate bdCreate = BDCreate.getInstance();
+        ArrayList<Quiz> quizzes = new ArrayList<>();
+
+        java.sql.Connection con = bdCreate.connect();
+        try  {
+            Statement statement = con.createStatement();
+            statement.execute("SELECT quiz.* from quiz");
+            ResultSet result = statement.getResultSet();
+
+            while (result.next()) {
+                String author = result.getString("quiz.author");
+                String theme = result.getString("quiz.theme");
+                double difficulty = result.getDouble("quiz.difficulty");
+
+                quizzes.add(new Quiz(author, theme, difficulty));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // System.err.println("Something wrong happened");
+        }
+
+        return quizzes;
     }
 
 }
