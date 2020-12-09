@@ -268,7 +268,7 @@ public class ClientRunner {
 		/*
 		 * Connexion au serveur
 		 */
-		while (username == null || username.isBlank() || username.equals("")) {
+		while (username == null || username.equals("")) {
 			username = frame.getUsername();
 		}
 		frame.getPanel().connecting_screen();
