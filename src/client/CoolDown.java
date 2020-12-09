@@ -1,8 +1,16 @@
+/**  
+* CoolDown.java - A Simple Cool Down
+* @author  Virgile DASSONNEVILLE
+* @version 1.0 
+*/ 
 package client;
 
 import javax.swing.JLabel;
 
 public class CoolDown extends Thread {
+	/*
+	 * Compte à rebourd pour les question
+	 */
 	int secs;
 	JLabel label_sec;
 	
@@ -19,7 +27,6 @@ public class CoolDown extends Thread {
 				Thread.sleep(1000);
 				secs--;
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

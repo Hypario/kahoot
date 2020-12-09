@@ -68,7 +68,7 @@ public class JsonParser {
         // Ouverture / Lecture du fichier
 
         File fic = new File(filename);
-        BufferedReader br = new BufferedReader(new FileReader(fic, StandardCharsets.UTF_8));
+        BufferedReader br = new BufferedReader(new FileReader(fic));
         String currentLine;
         while ((currentLine = br.readLine()) != null) {
             json_content.append(currentLine).append("\n");

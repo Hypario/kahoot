@@ -1,3 +1,8 @@
+/**  
+* ClientRunner.java - Master Running file
+* @author  Virgile DASSONNEVILLE
+* @version 1.0 
+*/ 
 package client;
 
 import java.io.IOException;
@@ -39,7 +44,6 @@ public class ClientRunner {
 	private final int time_to_answer = 10;
 
 	private ClientRunner() {
-		// TODO Auto-generated constructor stub
 		StartUI();
 	}
 
@@ -55,6 +59,9 @@ public class ClientRunner {
 	}
 
 	public void ReceivePanel(PanelToRunner state, Object element) {
+		/*
+		 * Reception des données venant de la Frame
+		 */
 		switch (state) {
 		case ANSWER:
 			frame.getPanel().question_lockbtns((JButton) element);
@@ -78,6 +85,9 @@ public class ClientRunner {
 	}
 
 	private void quiz_answer(String chosen_answer) {
+		/*
+		 * Reception de l'event de réponse à une question
+		 */
 		Proposition chosen = null;
 		for (Proposition p : currentQuestion.getPropositionList()) {
 			if (p.getText().equals(chosen_answer)) {
@@ -90,29 +100,38 @@ public class ClientRunner {
 
 	}
 
-	// ICI FABIEN
-
 	private void create_srv() {
+		/*
+		 * Creation d'un serveur
+		 */
 		channelAdmin = true;
 		Message tosend = new Message(MessageType.CreateChannel, null);
 		sendToServer(tosend);
 	}
 
 	private void start_game() {
+		/*
+		 * Demarrage d'une partie
+		 */
 		if (channelAdmin) {
-			// On attend fabien
 			Message tosend = new Message(MessageType.QuizzStart,this.channelName); // = new Message(MessageType.StartChannel, this.channelName);
 			sendToServer(tosend);
 		}
 	}
 
 	private void join_game(String name) {
+		/*
+		 * Connexion à une partie
+		 */
 		Message tosend = new Message(MessageType.ChannelChoice, name);
 		sendToServer(tosend);
 		frame.getPanel().waiting_room(channelAdmin);
 	}
 
 	public void ReceiveServer(Message msg) {
+		/*
+		 * Reception de données venant du serveur (après le thread)
+		 */
 		switch (msg.getType()) {
 		case Channels:
 			channelChoicesRX(msg);
@@ -137,6 +156,9 @@ public class ClientRunner {
 	}
 	
 	public void rxCreateChannel(Message msg) {
+		/*
+		 * Cration du cannal 
+		 */
 		// On reçoit les propositions de quizz
 		@SuppressWarnings("unchecked")
 		ArrayList<Quiz> quizes = (ArrayList<Quiz>) msg.getObject();
@@ -146,7 +168,7 @@ public class ClientRunner {
 			quiz_string[current] = q.getTheme();
 			current++;
 		}
-		
+
 		String answer_subject = null;
 		while (answer_subject == null) {
 			answer_subject = (String) JOptionPane.showInputDialog(frame, "Sélectionnez le thème des questions", "Thème des Questions", JOptionPane.QUESTION_MESSAGE, null, quiz_string, null);
@@ -159,7 +181,7 @@ public class ClientRunner {
 			}
 		}
 		
-		
+		// Envoi vers le serveur de quiz choisi
 		Message choice = new Message(MessageType.QuizzChoice, new CreateChannel(username, username, selected));
 		sendToServer(choice);
 		this.channelName = this.username;
@@ -171,10 +193,14 @@ public class ClientRunner {
 	}
 
 	public void rxJoin() {
+		// On envoie l'utilisateur dans la salle d'attente
 		frame.getPanel().waiting_room(channelAdmin);
 	}
 
 	public void rxQuestion(Message m) {
+		/*
+		 * Réception de la question et affichage dans le pannel
+		 */
 		Question q = (Question) m.getObject();
 		nbq++;
 		this.currentQuestion = q;
@@ -185,17 +211,27 @@ public class ClientRunner {
 	}
 
 	public void rxAnswer(Message msg) {
+		/*
+		 * Réception de la bonne réponse
+		 */
 		Proposition p = (Proposition) msg.getObject();
 		frame.getPanel().reponse(p, currentQuestion.getAnnec());	
 		
 	}
 
 	public void rxScore(Message msg) {
+		/*
+		 * Réception du tableau de scores
+		 */
+		@SuppressWarnings("unchecked")
 		HashMap<String, Integer> scores = (HashMap<String, Integer>) msg.getObject();
 		frame.getPanel().scores(scores);
 	}
 
 	public void channelChoicesRX(Message msg) {
+		/*
+		 * Réception des choix de cannaux
+		 */
 		@SuppressWarnings("unchecked")
 		ArrayList<String> ch = (ArrayList<String>) msg.getObject();
 		
@@ -203,6 +239,9 @@ public class ClientRunner {
 	}
 
 	public void close() {
+		/*
+		 * Fermeture de l'application
+		 */
 		try {
 			closeConnection();
 		} catch(Exception e) {
@@ -214,6 +253,9 @@ public class ClientRunner {
 	}
 
 	private void closeConnection() throws IOException, NullPointerException {
+		/*
+		 * Fermeture des connexions
+		 */
 		if (socket != null) {
 			oos.writeObject(null);
 			oos.close();
@@ -223,7 +265,10 @@ public class ClientRunner {
 	}
 
 	public void connectToServer(String host, int port) {
-		while (username == null || username.isBlank() || username.equals("")) {
+		/*
+		 * Connexion au serveur
+		 */
+		while (username == null || username.equals("")) {
 			username = frame.getUsername();
 		}
 		frame.getPanel().connecting_screen();
@@ -245,6 +290,9 @@ public class ClientRunner {
 	}
 
 	private void sendToServer(Message msg) {
+		/*
+		 * Envoi de données au serveur
+		 */
 		try {
 			oos.writeObject(msg);
 			oos.flush();

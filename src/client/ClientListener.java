@@ -1,3 +1,8 @@
+/**  
+* ClientListener.java - Listening Thread
+* @author  Virgile DASSONNEVILLE
+* @version 1.0 
+*/ 
 package client;
 
 import java.io.IOException;
@@ -19,6 +24,9 @@ public class ClientListener extends Thread{
 	}
 
 	public void run() {
+		/*
+		 * Création d'un thread pour lire l'entrée via Socket et pouvoir intéragir avec la classe runner
+		 */
 		System.out.println("Client Listener Thread Started");
 		while(!Thread.currentThread().isInterrupted()) {
 			Message msg;
